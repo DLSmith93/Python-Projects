@@ -127,3 +127,146 @@
 ## This is pracricing disctionaries ##
 ######################################
 
+
+#################################
+## This is pracricing modules ##
+################################
+
+#import datetime
+#import random
+
+#currentDate = datetime.datetime.now()
+
+#print("The current dat and time is.")
+#print(currentDate)
+
+#print("this is a random number")
+#print(random.randrange(1,100))
+
+
+#####################################
+## This is pracricing conditionals ##
+#####################################
+
+#num1 = 8
+
+#if num1 == 10:
+    #print("Num1 is equal to 10")
+
+#elif num1 % 2 == 0:
+    #print("Num1 is an even number")
+
+#else:
+    #print("Num1 is not equal to 10")
+
+#string1 = "Loser"
+#num2 = 5
+
+#print(bool(string1))
+#print(bool(num2))
+
+##############################
+## This is pracricing loops ##
+##############################
+
+#i = 0
+
+#print("The following is a while loop")
+#while i < 10:
+    #i += 1
+    #print("this is iteration numer {}".format(i))
+
+    #if i == 5:
+        #print("The loop has reached the 5ht iteration, it will now stop")
+        #break
+
+#print("The following is a for loop")
+#for x in range(5):
+    #print(x + 1)
+    #if x == 2:
+        #print("The loop has reached 3, it will now terminate")
+        #break
+    
+
+#name = "Python"
+
+#for i in enumerate(name):
+    #print(i)
+
+##################################
+## This is pracricing functions ##
+##################################
+
+"""
+def  myFunction():
+    print("This fucntion was called")
+    array = ["one", "two", "three", "four"]
+    for i in array:
+        print(i)
+
+def getSum(num1, num2):
+    answer = num1 + num2
+    print("The answer is {}".format(answer))
+
+print("I am about to call a function")
+myFunction()
+
+getSum(2,4)
+
+getAdd = getSum(5,5)
+
+"""
+
+
+#######################################
+## This is pracricing error handling ##
+#######################################
+"""
+def readInfo():
+    num1 = input("Pleaser enter a number: ")
+    num2 = input("Please ener another number: ")
+    compute(num1, num2)
+
+def compute(num1, num2):
+    try:
+        num3 = int(num1) + int(num2)
+        print("{} + {} = {}".format(num1, num2, num3))
+    except:
+        print("You did not enter an integer, try again!")
+        readInfo()
+readInfo()
+"""
+
+###########################################
+## This is pracricing manipulating files ##
+###########################################
+
+import os
+import time
+
+
+path1 = "/"
+
+dir_list1 = os.listdir(path1)
+
+for i in dir_list1:
+    print(i)
+
+
+path2 = "/home"
+print(os.path.join(path2, "devins/Desktop", "testfile.txt"))
+
+path3 = "/home/devins/Desktop/testfile.txt"
+mod_time1 = os.path.getmtime(path3)
+local_time1 = time.ctime(mod_time1)
+
+print("The last time the file was modified was {}".format(local_time1))
+
+path4 = "/home/devins/Desktop/os_script"
+dir_list2 = os.listdir(path4)
+mod_time2 = os.path.getmtime(path4)
+local_time2 = time.ctime(mod_time2)
+
+for x in dir_list2:
+    if x.endswith(".txt"):
+        print("File Name: {} -- Mod Time: {}".format(x, local_time2))

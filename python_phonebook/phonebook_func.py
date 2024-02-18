@@ -43,7 +43,7 @@ def ask_quit(self):
 
 # this creates the database
 def create_db(self):
-    conn = sqlite3.connect("python_phonebook/db_phonebook.db")
+    conn = sqlite3.connect("db_phonebook.db")
     
     with conn:
         cur = conn.cursor()
@@ -62,7 +62,7 @@ def create_db(self):
 # first dry run for adding a person to the phonebook
 def first_run(self):
     data = ("John", "Doe", "john Doe", "111-111-1111", "jdoe@mail.com")
-    conn = sqlite3.connect("python_phonebook/db_phonebook.db")
+    conn = sqlite3.connect("db_phonebook.db")
 
     with conn:
         cur = conn.cursor()
@@ -191,7 +191,7 @@ def onClear(self):
 def onRefresh(self):
     # Populate the listbox, coinciding with the database
     self.lstList1.delete(0,END)
-    conn = sqlite3.connect('python_phonebook/db_phonebook.db')
+    conn = sqlite3.connect('db_phonebook.db')
     with conn:
         cursor = conn.cursor()
         cursor.execute("""SELECT COUNT(*) FROM tbl_phonebook""")

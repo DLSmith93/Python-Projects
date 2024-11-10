@@ -43,7 +43,7 @@ def ask_quit(self):
 
 # this creates the database
 def create_db(self):
-    conn = sqlite3.connect("db_phonebook.db")
+    conn = sqlite3.connect("python_phonebook/db_phonebook.db")
     
     with conn:
         cur = conn.cursor()
@@ -62,7 +62,7 @@ def create_db(self):
 # first dry run for adding a person to the phonebook
 def first_run(self):
     data = ("John", "Doe", "john Doe", "111-111-1111", "jdoe@mail.com")
-    conn = sqlite3.connect("db_phonebook.db")
+    conn = sqlite3.connect("python_phonebook/db_phonebook.db")
 
     with conn:
         cur = conn.cursor()
@@ -161,7 +161,7 @@ def onDelete(self):
                     cursor = conn.cursor()
                     cursor.execute("""DELETE FROM tbl_phonebook WHERE col_fullname = '{}'""".format(var_select))
                 onDeleted(self) # call the function to clear all of the textboxes and the selected index of listbox
-######             onRefresh(self) # update the listbox of the changes
+                onRefresh(self) # update the listbox of the changes
                 conn.commit()
         else:
             confirm = messagebox.showerror("Last Record Error", "({}) is the last record in the database and cannot be deleted at this time. \n\nPlease add another record first before you can delete ({}).".format(var_select,var_select))
@@ -191,7 +191,7 @@ def onClear(self):
 def onRefresh(self):
     # Populate the listbox, coinciding with the database
     self.lstList1.delete(0,END)
-    conn = sqlite3.connect('db_phonebook.db')
+    conn = sqlite3.connect('python_phonebook/db_phonebook.db')
     with conn:
         cursor = conn.cursor()
         cursor.execute("""SELECT COUNT(*) FROM tbl_phonebook""")
@@ -217,7 +217,9 @@ def onUpdate(self):
     # For name changes, the user will need to delete the entire record and start over.
     var_phone = self.txt_phone.get().strip() # normalize the data to maintain database integrity
     var_email = self.txt_email.get().strip()
-    if (len(var_phone) > 0) and (len(var_email) > 0): # ensure that there is data present
+    var_lname = self.txt_lname.get().strip()
+    var_fname = self.txt_fname.get().strip()
+    if (len(var_phone) > 0) and (len(var_email) > 0) and (len(var_lname) > 0): # ensure that there is data present
         conn = sqlite3.connect('python_phonebook/db_phonebook.db')
         with conn:
             cur = conn.cursor()
@@ -229,14 +231,17 @@ def onUpdate(self):
             cur.execute("""SELECT COUNT(col_email) FROM tbl_phonebook WHERE col_email = '{}'""".format(var_email))
             count2 = cur.fetchone()[0]
             print(count2)
-            if count == 0 or count2 == 0: # if proposed changes are not already in the database, then proceed
-                response = messagebox.askokcancel("Update Request","The following changes ({}) and ({}) will be implemented for ({}). \n\nProceed with the update request?".format(var_phone,var_email,var_value))
+            cur.execute("""SELECT COUNT(col_lname) FROM tbl_phonebook WHERE col_lname = '{}'""".format(var_lname))
+            count3 = cur.fetchone()[0]
+            print(count3)
+            if count == 0 or count2 == 0 or count3 == 0: # if proposed changes are not already in the database, then proceed
+                response = messagebox.askokcancel("Update Request","The following changes ({}) and ({}) and ({}) will be implemented for ({}). \n\nProceed with the update request?".format(var_phone,var_email, var_lname, var_value))
                 print(response)
                 if response:
-                    #conn = sqlite3.connect('db_phonebook.db')
+                    conn = sqlite3.connect('python_phonebook/db_phonebook.db')
                     with conn:
                         cursor = conn.cursor()
-                        cursor.execute("""UPDATE tbl_phonebook SET col_phone = '{0}',col_email = '{1}' WHERE col_fullname = '{2}'""".format(var_phone,var_email,var_value))
+                        cursor.execute("""UPDATE tbl_phonebook SET col_phone = '{0}',col_email = '{1}', col_lname = '{2}' WHERE col_fullname = '{3}'""".format(var_phone, var_email, var_lname, var_value))
                         onClear(self)
                         conn.commit()
                 else:
